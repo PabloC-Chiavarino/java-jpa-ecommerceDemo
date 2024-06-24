@@ -14,20 +14,7 @@ public class InvoiceManager extends _GenericManager<Invoice> {
     }
 
     public void newBuy(Client client, Product product, Integer amount) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            Invoice invoice = new Invoice( LocalDateTime.now(), product.getPrice() * amount, client, null);
-            em.persist(invoice);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw e;
-        }
-        finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
-        }
+        Invoice invoice = new Invoice( LocalDateTime.now(), product.getPrice() * amount, client, null);
+        save(invoice);
     }
 }
